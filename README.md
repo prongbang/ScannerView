@@ -1,4 +1,4 @@
-# ZXing Scanner View
+# Simple ZXing Scanner View
 
 Simple QR & Barcode scanning library for Android, based on the [ZXing](https://github.com/zxing/zxing/), [ZXing Android Embedded](https://github.com/journeyapps/zxing-android-embedded), [Barcode Scanner](https://github.com/dm77/barcodescanner) for decoding.
 
