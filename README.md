@@ -8,7 +8,7 @@ Simple QR & Barcode scanning library for Android, based on the [ZXing](https://g
 
 ```groovy
 repositories {
-   jcenter()
+   maven { url 'https://jitpack.io' }
 }
 ```
 
