@@ -1,14 +1,20 @@
 package com.prongbang.scanview
 
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Point
+import android.graphics.Rect
 import android.util.AttributeSet
 import android.util.TypedValue
+import me.dm7.barcodescanner.core.DisplayUtils
 import me.dm7.barcodescanner.core.ViewFinderView
 
 class ScannerFinderView : ViewFinderView {
+
+	private var mFramingRect: Rect? = null
 
 	constructor(context: Context) : super(context) {
 		init()
@@ -32,9 +38,9 @@ class ScannerFinderView : ViewFinderView {
 		setSquareViewFinder(true)
 		setBorderColor(Color.WHITE)
 		setBorderCornerRounded(true)
-		setBorderCornerRadius(30)
+		setBorderCornerRadius(4)
 		setBorderStrokeWidth(4)
-		setBorderLineLength(45)
+		setBorderLineLength(60)
 	}
 
 	override fun onDraw(canvas: Canvas) {
@@ -56,9 +62,51 @@ class ScannerFinderView : ViewFinderView {
 		canvas.drawText(TRADE_MARK_TEXT, tradeMarkLeft, tradeMarkTop, PAINT)
 	}
 
+	override fun getFramingRect(): Rect? {
+		return mFramingRect
+	}
+
+	override fun updateFramingRect() {
+		val viewResolution = Point(width, height)
+		var width: Int
+		var height: Int
+		val orientation = DisplayUtils.getScreenOrientation(context)
+
+		if (mSquareViewFinder) {
+			if (orientation != Configuration.ORIENTATION_PORTRAIT) {
+				height = getHeight() - 50
+				width = height
+			} else {
+				width = getWidth() - 50
+				height = width
+			}
+		} else {
+			if (orientation != Configuration.ORIENTATION_PORTRAIT) {
+				height = getHeight() - 50
+				width = (1.4f * height).toInt()
+			} else {
+				width = getWidth() - 50
+				height = width
+			}
+		}
+
+		if (width > getWidth()) {
+			width = getWidth() - 50
+		}
+
+		if (height > getHeight()) {
+			height = getHeight() - 50
+		}
+
+		val leftOffset = (viewResolution.x - width) / 2
+		val topOffset = (viewResolution.y - height) / 2
+		mFramingRect = Rect(leftOffset + 0, topOffset + 0, leftOffset + width - 0,
+				topOffset + height - 0)
+	}
+
 	companion object {
 		private const val TRADE_MARK_TEXT = ""
-		private const val TRADE_MARK_TEXT_SIZE_SP = 40
+		private const val TRADE_MARK_TEXT_SIZE_SP = 4
 		private val PAINT = Paint()
 	}
 }
