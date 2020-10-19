@@ -16,7 +16,7 @@ repositories {
 
 ```groovy
 dependencies {
-    implementation 'com.github.prongbang:scannerview:1.0.0'
+    implementation 'com.github.prongbang:scannerview:1.1.0'
 }
 ```
 
